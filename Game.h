@@ -21,6 +21,9 @@ private:
 	// Player
 	Player* player;
 	
+	// Alternating shots
+	bool isLeft = false;
+
 	// Enemies
 	float spawnTimer;
 	float spawnTimerMax;

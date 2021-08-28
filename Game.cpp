@@ -7,7 +7,7 @@ Private
 void Game::initWindow()
 {
 	// "|" is a bitwise operator so that our window can close and have a title bar
-	this->window = new sf::RenderWindow(sf::VideoMode(800, 600), "Space Sharks", sf::Style::Close | sf::Style::Titlebar);
+	this->window = new sf::RenderWindow(sf::VideoMode(800, 600), "Space Shark Revenger", sf::Style::Close | sf::Style::Titlebar);
 	// We must limit frame rate
 	this->window->setFramerateLimit(144);
 	// No VSYNC
@@ -123,19 +123,66 @@ void Game::updateInput()
 		this->player->move(1.f, 0.f);
 	}
 
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && this->player->canAttack())
 	{
-		this->lasers.push_back(new Laser(this->textures["LASER"], this->player->getPos().x + 48, this->player->getPos().y - 110, 0.f, 0.f, 0.f));
+		if (!isLeft)
+		{
+			this->lasers.push_back(
+				new Laser(this->textures["LASER"],
+					this->player->getPos().x + 71,
+					this->player->getPos().y - 110,
+					0.f,
+					-1.f,
+					5.f));
+			isLeft = true;
+		}
+		else
+		{
+			this->lasers.push_back(
+				new Laser(this->textures["LASER"],
+					this->player->getPos().x + 25,
+					this->player->getPos().y - 110,
+					0.f,
+					-1.f,
+					5.f));
+			isLeft = false;
+		}
+		/*
+		this->lasers.push_back(
+			new Laser(this->textures["LASER"], 
+			this->player->getPos().x + 48, 
+			this->player->getPos().y - 110,
+			0.f, 
+			-1.f,
+			5.f));
+		*/
+		
 	}
 }
 
 // Update our bullets
 void Game::updateLasers()
 {
+	unsigned int counter = 0;
 	for (auto* laser : this->lasers)
 	{
 		// Render each laser to the window
 		laser->update();
+
+		// Cull laser at top of screen
+		if (laser->getBound().top + laser->getBound().height < 0.f)
+		{
+			// Delete laser
+			delete this->lasers.at(counter);
+			// Start at beginning of vector, add counter
+			this->lasers.erase(this->lasers.begin() + counter);
+			--counter;
+
+			// Check how many bullets there are
+			//std::cout << this->lasers.size() << std::endl;
+		}
+
+		++counter;
 	}
 }
 
@@ -165,6 +212,7 @@ void Game::update()
 {
 	this->updatePollEvents();
 	this->updateInput();
+	this->player->update();
 	this->updateLasers();
 	this->updateEnemies();
 }
