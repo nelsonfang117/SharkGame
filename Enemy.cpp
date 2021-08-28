@@ -9,6 +9,7 @@ void Enemy::initShape()
 
 void Enemy::initVariables()
 {
+	this->speed		= 2.f;
 	this->type		= 0;
 	this->hp		= 0;
 	this->hpMax		= 10;
@@ -48,9 +49,9 @@ Enemy::Enemy(float pos_x, float pos_y)
 
 	/*
 	this->initShape();
-	this->initVariables();
 	this->shape.setPosition(pos_x, pos_y);
 	*/
+	this->initVariables();
 	this->initTexture(index);
 	this->initSprite(index);
 }
@@ -61,10 +62,17 @@ Enemy::~Enemy()
 
 }
 
+// Accessor
+const sf::FloatRect Enemy::getBounds() const
+{
+	return this->sprite.getGlobalBounds();
+}
+
 // Functions
 void Enemy::update()
 {
-
+	// Move enemies
+	this->sprite.move(0.f, this->speed);
 }
 
 void Enemy::render(sf::RenderTarget* target)

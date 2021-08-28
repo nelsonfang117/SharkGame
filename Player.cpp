@@ -2,7 +2,7 @@
 
 void Player::initVariables()
 {
-	this->movementSpeed = 5.f;
+	this->movementSpeed = 6.f;
 	this->attackCooldownMax = 15.f;
 	// We set this so that our first attack is instant
 	this->attackCooldown = this->attackCooldownMax;

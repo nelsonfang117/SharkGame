@@ -51,7 +51,7 @@ public:
 	void updateInput();
 
 	void updateLasers();
-	void updateEnemies();
+	void updateEnemiesAndCombat();
 	void update();
 	void render();
 };

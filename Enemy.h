@@ -11,6 +11,9 @@ private:
 	// sf::CircleShape shape;
 	sf::Sprite sprite;
 	sf::Texture texture;
+
+	float speed;
+
 	int type;
 	int hp;
 	int hpMax;
@@ -27,6 +30,9 @@ public:
 	// Enemy();
 	Enemy(float pos_x, float pos_y);
 	virtual ~Enemy();
+
+	// Accessor
+	const sf::FloatRect getBounds() const;
 
 	// Functions
 	void update();

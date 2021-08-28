@@ -186,21 +186,30 @@ void Game::updateLasers()
 	}
 }
 
-// Update our enemies
-void Game::updateEnemies()
+// Update our enemies and also combat
+void Game::updateEnemiesAndCombat()
 {
 	this->spawnTimer += 0.5f;
 	if (this->spawnTimer >= this->spawnTimerMax)
 	{
-		// srand(time(NULL));
-		int xRAND = rand() % 500;
-		int yRAND = rand() % 200;
-		this->enemies.push_back(new Enemy(xRAND, yRAND));
+		this->enemies.push_back(new Enemy(rand() % this->window->getSize().x - 20.f, -150.f));
 		// Reset to zero
 		this->spawnTimer = 0.f;
 	}
 
 	// Update each enemy
+	for (int i = 0; i < this->enemies.size(); ++i)
+	{
+		this->enemies[i]->update();
+		// Top is y coordinate. Remove enemy at the bottom of the screen
+		if (this->enemies[i]->getBounds().top > this->window->getSize().y)
+		{
+			// Remove from vector
+			this->enemies.erase(this->enemies.begin() + i);
+			--i;
+			std::cout << this->enemies.size() << std::endl;
+		}
+	}
 	for (auto* enemy : this->enemies)
 	{
 		enemy->update();
@@ -214,7 +223,7 @@ void Game::update()
 	this->updateInput();
 	this->player->update();
 	this->updateLasers();
-	this->updateEnemies();
+	this->updateEnemiesAndCombat();
 }
 
 // Draws the updated data
