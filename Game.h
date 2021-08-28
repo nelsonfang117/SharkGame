@@ -2,7 +2,7 @@
 
 #include <map>
 #include "Player.h"
-
+#include "Laser.h"
 class Game
 {
 private:
@@ -11,7 +11,10 @@ private:
 
 	// Resources
 	// A container class, mapping two things together, for each string, there is a texture
-	std::map<std::string, sf::Texture> textures;
+	std::map<std::string, sf::Texture*> textures;
+
+	// Keep track of lasers
+	std::vector<Laser*> lasers;
 
 	// Player
 	Player* player;
@@ -30,6 +33,9 @@ public:
 
 	void updatePollEvents();
 	void updateInput();
+
+	void updateLasers();
+
 	void update();
 	void render();
 };

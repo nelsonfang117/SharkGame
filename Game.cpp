@@ -16,7 +16,10 @@ void Game::initWindow()
 
 void Game::initTextures()
 {
-
+	// Adds to map
+	this->textures["LASER"] = new sf::Texture();
+	// Load texture into map
+	this->textures["LASER"]->loadFromFile("Textures/laser3.png");
 }
 
 void Game::initPlayer()
@@ -32,6 +35,7 @@ Game::Game()
 {
 	// Start the window as game object is made
 	this->initWindow();
+	this->initTextures();
 	this->initPlayer();
 }
 
@@ -40,6 +44,20 @@ Game::~Game()
 {
 	delete this->window;
 	delete this->player;
+
+	// Remove all the textures
+	// For each thing in map
+	for (auto& i : this->textures)
+	{
+		// Textures is a map, the second of the map is the *texture and the first is simply the string
+		delete i.second;
+	}
+
+	// Delete all lasers
+	for (auto *i : this->lasers)
+	{
+		delete i;
+	}
 }
 
 // Our game loop
@@ -88,13 +106,30 @@ void Game::updateInput()
 	{
 		this->player->move(1.f, 0.f);
 	}
+
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	{
+		this->lasers.push_back(new Laser(this->textures["LASER"], this->player->getPos().x + 48, this->player->getPos().y - 110, 0.f, 0.f, 0.f));
+	}
 }
+
+// Update our bullets
+void Game::updateLasers()
+{
+	for (auto* laser : this->lasers)
+	{
+		// Render each laser to the window
+		laser->update();
+	}
+}
+
 
 // Update data
 void Game::update()
 {
 	this->updatePollEvents();
 	this->updateInput();
+	this->updateLasers();
 }
 
 // Draws the updated data
@@ -105,6 +140,12 @@ void Game::render()
 
 	// Draw all stuffs
 	this->player->render(*this->window);
+
+	// Render each laser to the window
+	for (auto* laser : this->lasers)
+	{
+		laser->render(this->window);
+	}
 
 	// Finish drawing and then display
 	this->window->display();

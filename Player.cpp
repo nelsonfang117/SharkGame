@@ -32,6 +32,12 @@ Player::~Player()
 
 }
 
+const sf::Vector2f& Player::getPos() const
+{
+	// Return the player position
+	return this->sprite.getPosition();
+}
+
 void Player::move(const float dirX, const float dirY)
 {
 	this->sprite.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
