@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <SFML/Audio.hpp>
 #include "Player.h"
 #include "Laser.h"
 #include "Enemy.h"

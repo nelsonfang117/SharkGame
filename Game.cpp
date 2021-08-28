@@ -7,7 +7,7 @@ Private
 void Game::initWindow()
 {
 	// "|" is a bitwise operator so that our window can close and have a title bar
-	this->window = new sf::RenderWindow(sf::VideoMode(800, 600), "Space Shark Revenger", sf::Style::Close | sf::Style::Titlebar);
+	this->window = new sf::RenderWindow(sf::VideoMode(800, 1000), "Space Shark Revenger", sf::Style::Close | sf::Style::Titlebar);
 	// We must limit frame rate
 	this->window->setFramerateLimit(144);
 	// No VSYNC
@@ -32,7 +32,7 @@ void Game::initPlayer()
 void Game::initEnemies()
 {
 	// Make sure the enemies don't spawn too fast
-	this->spawnTimerMax = 50.f;
+	this->spawnTimerMax = 20.f;
 	this->spawnTimer = this->spawnTimerMax;
 }
 
@@ -192,7 +192,7 @@ void Game::updateEnemiesAndCombat()
 	this->spawnTimer += 0.5f;
 	if (this->spawnTimer >= this->spawnTimerMax)
 	{
-		this->enemies.push_back(new Enemy(rand() % this->window->getSize().x - 20.f, -150.f));
+		this->enemies.push_back(new Enemy(rand() % this->window->getSize().x - 60.f, -150.f));
 		// Reset to zero
 		this->spawnTimer = 0.f;
 	}
@@ -200,14 +200,34 @@ void Game::updateEnemiesAndCombat()
 	// Update each enemy
 	for (int i = 0; i < this->enemies.size(); ++i)
 	{
+		bool enemy_removed = false;
 		this->enemies[i]->update();
-		// Top is y coordinate. Remove enemy at the bottom of the screen
-		if (this->enemies[i]->getBounds().top > this->window->getSize().y)
+
+		for(size_t k = 0; k < this->lasers.size() && !enemy_removed; k++)
 		{
-			// Remove from vector
-			this->enemies.erase(this->enemies.begin() + i);
-			--i;
-			std::cout << this->enemies.size() << std::endl;
+			// If there is an intersect between enemy and laser
+			if (this->lasers[k]->getBound().intersects(this->enemies[i]->getBounds()))
+			{
+				this->lasers.erase(this->lasers.begin() + k);
+				this->enemies.erase(this->enemies.begin() + i);
+				--k;
+				--i;
+				enemy_removed = true;
+			}
+		}
+
+		// Only go through if enemy is not removed
+		if (!enemy_removed)
+		{
+			// Top is y coordinate. Remove enemy at the bottom of the screen
+			if (this->enemies[i]->getBounds().top > this->window->getSize().y)
+			{
+				// Remove from vector
+				this->enemies.erase(this->enemies.begin() + i);
+				std::cout << this->enemies.size() << std::endl;
+				--i;
+				enemy_removed = true;
+			}
 		}
 	}
 	for (auto* enemy : this->enemies)
