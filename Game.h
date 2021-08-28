@@ -3,6 +3,8 @@
 #include <map>
 #include "Player.h"
 #include "Laser.h"
+#include "Enemy.h"
+
 class Game
 {
 private:
@@ -18,7 +20,9 @@ private:
 
 	// Player
 	Player* player;
-
+	
+	// Enemies
+	Enemy* enemy;
 	// Private functions
 	// This function intializes the window
 	void initWindow();

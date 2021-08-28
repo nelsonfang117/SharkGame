@@ -25,6 +25,7 @@ void Game::initTextures()
 void Game::initPlayer()
 {
 	this->player = new Player();
+	this->enemy = new Enemy(20.f, 20.f);
 }
 
 /*
@@ -146,6 +147,8 @@ void Game::render()
 	{
 		laser->render(this->window);
 	}
+
+	this->enemy->render(this->window);
 
 	// Finish drawing and then display
 	this->window->display();
