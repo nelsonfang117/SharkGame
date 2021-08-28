@@ -25,7 +25,15 @@ void Game::initTextures()
 void Game::initPlayer()
 {
 	this->player = new Player();
-	this->enemy = new Enemy(20.f, 20.f);
+	// Enemy pos at 20 20
+	//this->enemy = new Enemy(20.f, 20.f);
+}
+
+void Game::initEnemies()
+{
+	// Make sure the enemies don't spawn too fast
+	this->spawnTimerMax = 50.f;
+	this->spawnTimer = this->spawnTimerMax;
 }
 
 /*
@@ -38,6 +46,7 @@ Game::Game()
 	this->initWindow();
 	this->initTextures();
 	this->initPlayer();
+	this->initEnemies();
 }
 
 // Destructor
@@ -56,6 +65,12 @@ Game::~Game()
 
 	// Delete all lasers
 	for (auto *i : this->lasers)
+	{
+		delete i;
+	}
+
+	// Delete enemies
+	for (auto* i : this->enemies)
 	{
 		delete i;
 	}
@@ -124,6 +139,26 @@ void Game::updateLasers()
 	}
 }
 
+// Update our enemies
+void Game::updateEnemies()
+{
+	this->spawnTimer += 0.5f;
+	if (this->spawnTimer >= this->spawnTimerMax)
+	{
+		// srand(time(NULL));
+		int xRAND = rand() % 500;
+		int yRAND = rand() % 200;
+		this->enemies.push_back(new Enemy(xRAND, yRAND));
+		// Reset to zero
+		this->spawnTimer = 0.f;
+	}
+
+	// Update each enemy
+	for (auto* enemy : this->enemies)
+	{
+		enemy->update();
+	}
+}
 
 // Update data
 void Game::update()
@@ -131,6 +166,7 @@ void Game::update()
 	this->updatePollEvents();
 	this->updateInput();
 	this->updateLasers();
+	this->updateEnemies();
 }
 
 // Draws the updated data
@@ -148,7 +184,12 @@ void Game::render()
 		laser->render(this->window);
 	}
 
-	this->enemy->render(this->window);
+	for (auto* enemy : this->enemies)
+	{
+		enemy->render(this->window);
+	}
+
+	// this->enemy->render(this->window);
 
 	// Finish drawing and then display
 	this->window->display();

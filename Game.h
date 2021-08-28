@@ -22,12 +22,21 @@ private:
 	Player* player;
 	
 	// Enemies
-	Enemy* enemy;
+	float spawnTimer;
+	float spawnTimerMax;
+	std::vector<Enemy*> enemies;
+	// Enemy* enemy;
+
 	// Private functions
 	// This function intializes the window
 	void initWindow();
+
 	void initTextures();
 	void initPlayer();
+
+	void initEnemies();
+
+
 public:
 	Game();
 	virtual ~Game();
@@ -39,7 +48,7 @@ public:
 	void updateInput();
 
 	void updateLasers();
-
+	void updateEnemies();
 	void update();
 	void render();
 };
