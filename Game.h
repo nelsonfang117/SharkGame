@@ -64,11 +64,16 @@ private:
 	void initEnemies();
 
 	// music 
-	sf::SoundBuffer buffer1;
-	sf::Sound sound;
-	sf::Music explosionSound;
-	sf::Music laserSound;
-	sf::Music hitSound;
+	sf::SoundBuffer bufferHit;
+	sf::SoundBuffer bufferExplosion;
+	sf::SoundBuffer bufferUserHit;
+	sf::SoundBuffer bufferUserBoundary;
+	sf::SoundBuffer bufferLaser;
+	sf::Sound soundLaser;
+	sf::Sound soundUserBoundary;
+	sf::Sound soundHit;
+	sf::Sound soundExplosion;
+	sf::Sound soundUserHit;
 
 public:
 	Game();
