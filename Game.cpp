@@ -434,7 +434,7 @@ void Game::updateCombat()
 			if (this->finalboss->getBounds().intersects(this->lasers[k]->getBound()))
 			{
 				// Play sound here:
-				this->sound.play();
+				this->soundHit.play();
 				this->finalboss->dealDamage();
 				if (this->finalboss->getHp() == 0)
 				{
@@ -445,7 +445,7 @@ void Game::updateCombat()
 				delete this->lasers[k];
 				this->lasers.erase(this->lasers.begin() + k);
 				Sleep(25);
-				this->sound.stop();
+				this->soundHit.stop();
 			}
 		}
 	}
