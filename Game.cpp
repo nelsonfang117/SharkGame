@@ -113,10 +113,25 @@ Game::Game()
 	bufferLaser.loadFromFile("Music/laser.wav");
 	// backgroundEpic.loadFromFile("Music/music_halodoom.wav");
 	music.openFromFile("Music/music_halodoom.wav");
+	bufferLaugh.loadFromFile("Music/albert_laugh.wav");
+	bufferAlbertDamage.loadFromFile("Music/albert_alt_sfx.wav");
+	bufferAlbertDies.loadFromFile("Music/albert_final_boss_death_sound.wav");
+
+
+	
 	music.setVolume(4.f);
 	music.setLoop(true);
 	music.play();
-	
+
+	this->soundAlbertDies.setBuffer(this->bufferAlbertDies);
+	this->soundAlbertDies.setVolume(5.f);
+
+	this->soundAlbertDamage.setBuffer(this->bufferAlbertDamage);
+	this->soundAlbertDamage.setVolume(3.f);
+
+	this->soundLaugh.setBuffer(this->bufferLaugh);
+	this->soundLaugh.setVolume(5.f);
+
 	this->soundLaser.setBuffer(this->bufferLaser);
 	this->soundLaser.setVolume(1.f);
 	this->soundUserHit.setBuffer(this->bufferUserHit);
@@ -393,11 +408,14 @@ void Game::updateAlbert()
 		music.openFromFile("Music/music_arigato.wav");
 		music.setLoop(true);
 		music.play();
+		soundLaugh.play();
 		newMusic = true;
 	}
+
 	this->finalboss->update();
 	if (finalboss->getBounds().intersects(this->player->getBounds()))
 	{
+		this->soundHit.play();
 		this->player->loseHp(this->finalboss->getDamage());
 	}
 }
@@ -453,9 +471,12 @@ void Game::updateCombat()
 			{
 				// Play sound here:
 				this->soundHit.play();
+
+				soundAlbertDamage.play();
 				this->finalboss->dealDamage();
 				if (this->finalboss->getHp() == 0)
 				{
+					soundAlbertDies.play();
 					this->points += this->finalboss->getPoints();
 					delete this->finalboss;
 					dead = true;
@@ -464,6 +485,7 @@ void Game::updateCombat()
 				this->lasers.erase(this->lasers.begin() + k);
 				Sleep(25);
 				this->soundHit.stop();
+				
 			}
 		}
 	}

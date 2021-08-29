@@ -76,12 +76,18 @@ private:
 	sf::SoundBuffer bufferUserHit;
 	sf::SoundBuffer bufferUserBoundary;
 	sf::SoundBuffer bufferLaser;
+	sf::SoundBuffer bufferLaugh;
+	sf::SoundBuffer bufferAlbertDamage;
+	sf::SoundBuffer bufferAlbertDies;
+
 	sf::Sound soundLaser;
 	sf::Sound soundUserBoundary;
 	sf::Sound soundHit;
 	sf::Sound soundExplosion;
 	sf::Sound soundUserHit;
-
+	sf::Sound soundLaugh;
+	sf::Sound soundAlbertDamage;
+	sf::Sound soundAlbertDies;
 	sf::Music music;
 
 	bool newMusic = false;
