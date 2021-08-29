@@ -111,6 +111,12 @@ Game::Game()
 	bufferHit.loadFromFile("Music/hit_sfx.wav");
 	bufferUserHit.loadFromFile("Music/player_hit_sound_alt.wav");
 	bufferLaser.loadFromFile("Music/laser.wav");
+	// backgroundEpic.loadFromFile("Music/music_halodoom.wav");
+	music.openFromFile("Music/music_halodoom.wav");
+	music.setVolume(4.f);
+	music.setLoop(true);
+	music.play();
+	
 	this->soundLaser.setBuffer(this->bufferLaser);
 	this->soundLaser.setVolume(1.f);
 	this->soundUserHit.setBuffer(this->bufferUserHit);
@@ -381,6 +387,14 @@ void Game::updateEnemies()
 // Update our final boss
 void Game::updateAlbert()
 {
+	if (this->points > 100 && !newMusic)
+	{
+		music.stop();
+		music.openFromFile("Music/music_arigato.wav");
+		music.setLoop(true);
+		music.play();
+		newMusic = true;
+	}
 	this->finalboss->update();
 	if (finalboss->getBounds().intersects(this->player->getBounds()))
 	{
@@ -532,7 +546,7 @@ void Game::render()
 				finalboss->render(this->window);
 			}
 		}
-		
+
 	}
 	// this->enemy->render(this->window);
 

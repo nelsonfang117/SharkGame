@@ -11,7 +11,7 @@ int main()
 	// Give a random seed for time
 	srand(static_cast<unsigned int>(time(0)));
 
-
+	/*
 	sf::SoundBuffer buffer;
 	if (!buffer.loadFromFile("Music/music_halodoom.wav"))
 	{
@@ -22,6 +22,8 @@ int main()
 	sound.setVolume(4.f);
 	sound.setLoop(true);
 	sound.play();
+	*/
+
 
 	Game game;
 	game.run();

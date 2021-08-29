@@ -82,6 +82,10 @@ private:
 	sf::Sound soundExplosion;
 	sf::Sound soundUserHit;
 
+	sf::Music music;
+
+	bool newMusic = false;
+
 public:
 	Game();
 	virtual ~Game();
