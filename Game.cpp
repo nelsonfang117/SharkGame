@@ -88,6 +88,10 @@ void Game::initEnemies()
 	this->spawnTimer = this->spawnTimerMax;
 }
 
+void Game::initAlbert()
+{
+	this->finalboss = new Albert(120.f, -400.f);
+}
 /*
 Public
 */
@@ -133,6 +137,10 @@ Game::~Game()
 	for (auto* i : this->enemies)
 	{
 		delete i;
+	}
+	if (finalboss != nullptr)
+	{
+		delete finalboss;
 	}
 }
 
@@ -300,7 +308,12 @@ void Game::updateLasers()
 void Game::updateEnemies()
 {
 	// Spawning
-	this->spawnTimer += 0.5f;
+
+	if (this->points <= 100)
+	{
+		this->spawnTimer += 0.5f;
+	}
+
 	if (this->spawnTimer >= this->spawnTimerMax)
 	{
 		int point = rand() % this->window->getSize().x;
@@ -346,6 +359,16 @@ void Game::updateEnemies()
 	}
 }
 
+// Update our final boss
+void Game::updateAlbert()
+{
+	this->finalboss->update();
+	if (finalboss->getBounds().intersects(this->player->getBounds()))
+	{
+		this->player->loseHp(this->finalboss->getDamage());
+	}
+}
+
 // Update our combat
 void Game::updateCombat()
 {
@@ -382,6 +405,35 @@ void Game::updateCombat()
 			}
 		}
 	}
+
+	if (this->points > 100)
+	{
+		for (int k = 0; k < this->lasers.size(); k++)
+		{
+			if (firstTime)
+			{
+				// Call init
+				this->initAlbert();
+				firstTime = false;
+			}
+			if (this->finalboss->getBounds().intersects(this->lasers[k]->getBound()))
+			{
+				// Play sound here:
+				this->sound.play();
+				this->finalboss->dealDamage();
+				if (this->finalboss->getHp() == 0)
+				{
+					this->points += this->finalboss->getPoints();
+					delete this->finalboss;
+					dead = true;
+				}
+				delete this->lasers[k];
+				this->lasers.erase(this->lasers.begin() + k);
+				Sleep(25);
+				this->sound.stop();
+			}
+		}
+	}
 	
 }
 
@@ -392,7 +444,18 @@ void Game::update()
 	this->player->update();
 	this->updateCollision();
 	this->updateLasers();
+
 	this->updateEnemies();
+	if (this->points > 100)
+	{
+		if (firstTime)
+		{
+			// Call init
+			this->initAlbert();
+			firstTime = false;
+		}
+		this->updateAlbert();
+	}
 	this->updateCombat();
 	this->updateGUI();
 	this->updateWorld();
@@ -435,6 +498,23 @@ void Game::render()
 		enemy->render(this->window);
 	}
 
+	if (this->points > 100)
+	{
+		if (firstTime)
+		{
+			// Call init
+			this->initAlbert();
+			firstTime = false;
+		}
+		if (finalboss != nullptr)
+		{
+			if (!dead)
+			{
+				finalboss->render(this->window);
+			}
+		}
+		
+	}
 	// this->enemy->render(this->window);
 
 	this->renderGUI();

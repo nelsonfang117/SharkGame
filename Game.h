@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Laser.h"
 #include "Enemy.h"
+#include "Albert.h"
 #include <windows.h>
 
 class Game
@@ -45,6 +46,10 @@ private:
 	bool isLeft = false;
 
 	// Enemies
+	Albert* finalboss;
+	bool firstTime = true;
+	bool dead = false;
+
 	float spawnTimer;
 	float spawnTimerMax;
 	std::vector<Enemy*> enemies;
@@ -62,6 +67,7 @@ private:
 	void initSystems();
 
 	void initEnemies();
+	void initAlbert();
 
 	// music 
 	sf::SoundBuffer buffer1;
@@ -84,7 +90,9 @@ public:
 	void updateCollision();
 	void updateLasers();
 	void updateEnemies();
+	void updateAlbert();
 	void updateCombat();
+
 	void update();
 	void renderGUI();
 	void renderWorld();

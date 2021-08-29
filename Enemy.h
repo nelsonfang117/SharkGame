@@ -11,7 +11,6 @@ private:
 	const char* names[3] = { "Textures/enemy_mantarayyellow.png", 
 		"Textures/enemy_fishwhite.png", 
 		"Textures/enemy_jellyfish.png"};
-	// sf::CircleShape shape;
 	sf::Sprite sprite;
 	sf::Texture texture;
 

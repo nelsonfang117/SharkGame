@@ -14,7 +14,7 @@ void Enemy::initVariables(int x)
 		this->pointCount = rand() % 8 + 3; // max: 10, min: 3
 		this->speed = 0.8f;
 		this->type = 0;
-		this->hpMax = 20;
+		this->hpMax = 10;
 		this->hp = this->hpMax;
 		this->damage = 2;
 		this->points = 4;
@@ -27,14 +27,14 @@ void Enemy::initVariables(int x)
 		this->hpMax = 10;
 		this->hp = this->hpMax;
 		this->damage = 4;
-		this->points = 2;
+		this->points = 100;
 	}
 	else if (x == 2)	// Jellyfish
 	{
 		this->pointCount = rand() % 8 + 3; // max: 10, min: 3
 		this->speed = 0.5f;
 		this->type = 0;
-		this->hpMax = 60;
+		this->hpMax = 10;
 		this->hp = this->hpMax;
 		this->damage = 1;
 		this->points = 10;
@@ -133,50 +133,3 @@ void Enemy::render(sf::RenderTarget* target)
 	// Render our enemy
 	target->draw(this->sprite);
 }
-
-// Code before changing enemies to sprites
-/*
-#include "Enemy.h"
-
-void Enemy::initShape()
-{
-	// Random values for radius and point count
-	this->shape.setRadius(rand() % 20 + 20);
-	this->shape.setPointCount(rand() % 20 + 3);
-}
-
-void Enemy::initVariables()
-{
-	this->type		= 0;
-	this->hp		= 0;
-	this->hpMax		= 10;
-	this->damage	= 1;
-	this->points	= 5;
-}
-
-// Constructor
-Enemy::Enemy(float pos_x, float pos_y)
-{
-	this->initShape();
-	this->initVariables();
-	this->shape.setPosition(pos_x, pos_y);
-}
-
-// Destructor
-Enemy::~Enemy()
-{
-
-}
-
-// Functions
-void Enemy::update()
-{
-
-}
-
-void Enemy::render(sf::RenderTarget* target)
-{
-	// Render our enemy
-	target->draw(this->shape);
-}
-*/
