@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Laser.h"
 #include "Enemy.h"
+#include <windows.h>
 
 class Game
 {
@@ -61,7 +62,10 @@ private:
 	void initSystems();
 
 	void initEnemies();
+
 	// music 
+	sf::SoundBuffer buffer1;
+	sf::Sound sound;
 	sf::Music explosionSound;
 	sf::Music laserSound;
 	sf::Music hitSound;

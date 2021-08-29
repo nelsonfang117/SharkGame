@@ -96,6 +96,9 @@ Game::Game()
 {	
 	explosionSound.openFromFile("Music/alt_explosion_sfx.wav");
 	hitSound.openFromFile("Music/hit_sfx.wav");
+	hitSound.setVolume(1.0f);
+
+	buffer1.loadFromFile("Music/hit_sfx.wav");
 	// Start the window as game object is made
 	this->initWindow();
 	this->initTextures();
@@ -346,7 +349,8 @@ void Game::updateEnemies()
 // Update our combat
 void Game::updateCombat()
 {
-
+	this->sound.setBuffer(this->buffer1);
+	this->sound.setVolume(5.f);
 	// Update each enemy
 	for (int i = 0; i < this->enemies.size(); ++i)
 	{
@@ -356,7 +360,7 @@ void Game::updateCombat()
 			// Check if enemy intersects with laser
 			if (this->enemies[i]->getBounds().intersects(this->lasers[k]->getBound()))
 			{
-				hitSound.play();
+				this->sound.play();
 				// Deal damage, only destroy if enemy hp is 0
 				this->enemies[i]->dealDamage();
 				if (this->enemies[i]->getHp() == 0)
@@ -373,7 +377,8 @@ void Game::updateCombat()
 				
 				delete this->lasers[k];
 				this->lasers.erase(this->lasers.begin() + k);
-		
+				Sleep(25);
+				this->sound.stop();
 			}
 		}
 	}
