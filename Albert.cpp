@@ -3,7 +3,7 @@
 void Albert::initVariables()
 {
 	this->alive = true;
-	this->hpMax = 200;
+	this->hpMax = 300;
 	this->hp = this->hpMax;
 	this->speed = 0.4f;
 	this->damage = 90;

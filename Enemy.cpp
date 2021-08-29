@@ -14,7 +14,7 @@ void Enemy::initVariables(int x)
 		this->pointCount = rand() % 8 + 3; // max: 10, min: 3
 		this->speed = 0.8f;
 		this->type = 0;
-		this->hpMax = 10;
+		this->hpMax = 20;
 		this->hp = this->hpMax;
 		this->damage = 2;
 		this->points = 4;
@@ -27,14 +27,14 @@ void Enemy::initVariables(int x)
 		this->hpMax = 10;
 		this->hp = this->hpMax;
 		this->damage = 4;
-		this->points = 100;
+		this->points = 2;
 	}
 	else if (x == 2)	// Jellyfish
 	{
 		this->pointCount = rand() % 8 + 3; // max: 10, min: 3
 		this->speed = 0.5f;
 		this->type = 0;
-		this->hpMax = 10;
+		this->hpMax = 60;
 		this->hp = this->hpMax;
 		this->damage = 1;
 		this->points = 10;
