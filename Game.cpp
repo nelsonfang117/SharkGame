@@ -98,11 +98,23 @@ Public
 // Our constructor
 Game::Game()
 {	
-	explosionSound.openFromFile("Music/alt_explosion_sfx.wav");
-	hitSound.openFromFile("Music/hit_sfx.wav");
-	hitSound.setVolume(1.0f);
+	// set soundeffects
+	bufferExplosion.loadFromFile("Music/alt_explosion_sfx.wav");
+	bufferHit.loadFromFile("Music/hit_sfx.wav");
+	bufferUserHit.loadFromFile("Music/player_hit_sound_alt.wav");
+	bufferLaser.loadFromFile("Music/laser.wav");
+	this->soundLaser.setBuffer(this->bufferLaser);
+	this->soundLaser.setVolume(1.f);
+	this->soundUserHit.setBuffer(this->bufferUserHit);
+	this->soundUserHit.setVolume(5.f);
+	this->soundHit.setBuffer(this->bufferHit);
+	this->soundHit.setVolume(3.f);
+	this->soundExplosion.setBuffer(this->bufferExplosion);
+	this->soundExplosion.setVolume(5.f);
 
-	buffer1.loadFromFile("Music/hit_sfx.wav");
+
+
+
 	// Start the window as game object is made
 	this->initWindow();
 	this->initTextures();
@@ -197,6 +209,7 @@ void Game::updateInput()
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && this->player->canAttack())
 	{
+		soundLaser.play();
 		if (!isLeft)
 		{
 			this->lasers.push_back(
@@ -348,6 +361,8 @@ void Game::updateEnemies()
 		// Collision with enemies
 		else if (enemy->getBounds().intersects(this->player->getBounds()))
 		{
+			// play damage sound effect
+			soundUserHit.play();
 			// Lose hp
 			this->player->loseHp(this->enemies.at(counter)->getDamage());
 			delete this->enemies.at(counter);
@@ -372,8 +387,7 @@ void Game::updateAlbert()
 // Update our combat
 void Game::updateCombat()
 {
-	this->sound.setBuffer(this->buffer1);
-	this->sound.setVolume(5.f);
+
 	// Update each enemy
 	for (int i = 0; i < this->enemies.size(); ++i)
 	{
@@ -383,12 +397,12 @@ void Game::updateCombat()
 			// Check if enemy intersects with laser
 			if (this->enemies[i]->getBounds().intersects(this->lasers[k]->getBound()))
 			{
-				this->sound.play();
+				this->soundHit.play();
 				// Deal damage, only destroy if enemy hp is 0
 				this->enemies[i]->dealDamage();
 				if (this->enemies[i]->getHp() == 0)
 				{
-					
+					soundExplosion.play();
 					// Increase points for killing enemies.
 					this->points += this->enemies[i]->getPoints();
 					// Delete enemy
@@ -396,12 +410,13 @@ void Game::updateCombat()
 					// Start at beginning of vector, add counter
 					this->enemies.erase(this->enemies.begin() + i);
 					enemy_deleted = true;
+					
 				}
 				
 				delete this->lasers[k];
 				this->lasers.erase(this->lasers.begin() + k);
-				Sleep(25);
-				this->sound.stop();
+				Sleep(30);
+				this->soundHit.stop();
 			}
 		}
 	}
