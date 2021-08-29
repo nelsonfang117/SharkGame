@@ -15,9 +15,13 @@ private:
 	// Once we hit attackCooldownMax, we can attack again
 	float attackCooldownMax;
 
+	int hp;
+	int hpMax;
+
 	void initVariables();
 	void initTexture();
 	void initSprite();
+
 public:
 	Player();
 	virtual ~Player();
@@ -25,6 +29,14 @@ public:
 	// Accessor
 	const sf::Vector2f& getPos() const;
 	const sf::FloatRect getBounds() const;
+	const int& getHp() const;
+	const int& getHpMax() const;
+
+	// Modifiers
+	void setPosition(const sf::Vector2f pos);
+	void setPosition(const float x, const float y);
+	void setHp(const int hp);
+	void loseHp(const int value);
 
 	// Functions
 	void move(const float dirX, const float dirY);

@@ -11,13 +11,13 @@ int main()
 	srand(static_cast<unsigned int>(time(0)));
 
 	sf::SoundBuffer buffer;
-	if (!buffer.loadFromFile("Music/music_projectyi.wav"))
+	if (!buffer.loadFromFile("Music/music_halodoom.wav"))
 	{
 		return -1;
 	}
 	sf::Sound sound;
 	sound.setBuffer(buffer);
-	sound.setVolume(20.f);
+	sound.setVolume(6.f);
 	sound.setLoop(true);
 	sound.play();
 	Game game;

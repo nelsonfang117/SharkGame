@@ -6,8 +6,10 @@
 class Enemy
 {
 private:
-
-	const char* names[2] = { "Textures/enemy_mantaray.png", "Textures/enemy_fish.png" };
+	unsigned int pointCount;
+	const char* names[3] = { "Textures/enemy_mantarayyellow.png", 
+		"Textures/enemy_fishwhite.png", 
+		"Textures/enemy_jellyfish.png"};
 	// sf::CircleShape shape;
 	sf::Sprite sprite;
 	sf::Texture texture;
@@ -21,7 +23,7 @@ private:
 	int points;
 	
 	void initShape();
-	void initVariables();
+	void initVariables(int x);
 
 	void initTexture(int x);
 	void initSprite(int x);
@@ -33,6 +35,12 @@ public:
 
 	// Accessor
 	const sf::FloatRect getBounds() const;
+	const int& getPoints() const;
+	const int& getDamage() const;
+	const int& getHp() const; // Find enemy hp
+
+	// Mutator
+	void dealDamage();
 
 	// Functions
 	void update();

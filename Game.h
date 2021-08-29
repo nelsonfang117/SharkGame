@@ -1,6 +1,8 @@
 #pragma once
 
 #include <map>
+#include <string>
+#include <sstream>
 #include <SFML/Audio.hpp>
 #include "Player.h"
 #include "Laser.h"
@@ -19,9 +21,25 @@ private:
 	// Keep track of lasers
 	std::vector<Laser*> lasers;
 
+	// GUI
+	sf::Font font;
+	sf::Text pointText;
+	sf::Text gameOverText;
+
+	// World
+	sf::Texture worldBackgroundTex;
+	sf::Sprite worldBackground;
+
+	//Systems
+	unsigned int points;
+
 	// Player
 	Player* player;
 	
+	// Player GUI (our health bar)
+	sf::RectangleShape playerHpBar;
+	sf::RectangleShape playerHpBarBack;
+
 	// Alternating shots
 	bool isLeft = false;
 
@@ -31,12 +49,16 @@ private:
 	std::vector<Enemy*> enemies;
 	// Enemy* enemy;
 
+
 	// Private functions
 	// This function intializes the window
 	void initWindow();
 
 	void initTextures();
+	void initGUI();
+	void initWorld();
 	void initPlayer();
+	void initSystems();
 
 	void initEnemies();
 
@@ -50,9 +72,14 @@ public:
 
 	void updatePollEvents();
 	void updateInput();
-
+	void updateGUI();
+	void updateWorld();
+	void updateCollision();
 	void updateLasers();
-	void updateEnemiesAndCombat();
+	void updateEnemies();
+	void updateCombat();
 	void update();
+	void renderGUI();
+	void renderWorld();
 	void render();
 };

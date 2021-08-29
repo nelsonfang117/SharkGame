@@ -7,14 +7,39 @@ void Enemy::initShape()
 	// this->shape.setPointCount(rand() % 20 + 3);
 }
 
-void Enemy::initVariables()
+void Enemy::initVariables(int x)
 {
-	this->speed		= 1.f;
-	this->type		= 0;
-	this->hp		= 0;
-	this->hpMax		= 10;
-	this->damage	= 1;
-	this->points	= 5;
+	if (x == 0)			// Manta Ray
+	{
+		this->pointCount = rand() % 8 + 3; // max: 10, min: 3
+		this->speed = 0.8f;
+		this->type = 0;
+		this->hpMax = 20;
+		this->hp = this->hpMax;
+		this->damage = 2;
+		this->points = 4;
+	}
+	else if (x == 1)	// Normal Fish
+	{
+		this->pointCount = rand() % 8 + 3; // max: 10, min: 3
+		this->speed = 1.3f;
+		this->type = 0;
+		this->hpMax = 10;
+		this->hp = this->hpMax;
+		this->damage = 4;
+		this->points = 2;
+	}
+	else if (x == 2)	// Jellyfish
+	{
+		this->pointCount = rand() % 8 + 3; // max: 10, min: 3
+		this->speed = 0.5f;
+		this->type = 0;
+		this->hpMax = 60;
+		this->hp = this->hpMax;
+		this->damage = 1;
+		this->points = 10;
+	}
+	
 }
 
 void Enemy::initTexture(int x)
@@ -36,22 +61,26 @@ Enemy::Enemy(float pos_x, float pos_y)
 {
 	// Set the sprite location
 	sprite.setPosition(pos_x, pos_y);
-	int randomInt = rand() % 10 + 1;
+	int randomInt = rand() % 10 + 1; // 1 to 10
 	int index;
-	if (randomInt % 2 == 0)
+	if (randomInt == 10)
+	{
+		index = 2;
+	}
+	else if (randomInt % 2 == 0)
 	{
 		index = 0;
 	}
-	else
+	else 
 	{
-		index = 1;
+		index= 1;
 	}
 
 	/*
 	this->initShape();
 	this->shape.setPosition(pos_x, pos_y);
 	*/
-	this->initVariables();
+	this->initVariables(index);
 	this->initTexture(index);
 	this->initSprite(index);
 }
@@ -62,13 +91,37 @@ Enemy::~Enemy()
 
 }
 
-// Accessor
+// ACCESSORS
 const sf::FloatRect Enemy::getBounds() const
 {
 	return this->sprite.getGlobalBounds();
 }
 
-// Functions
+const int& Enemy::getPoints() const
+{
+	return this->points;
+}
+
+const int& Enemy::getDamage() const
+{
+	return this->damage;
+}
+
+const int& Enemy::getHp() const
+{
+	return this->hp;
+}
+
+// FUNCTIONS
+void Enemy::dealDamage()
+{
+	this->hp -= 10;
+	if (this->hp < 0)
+	{
+		this->hp = 0;
+	}
+}
+
 void Enemy::update()
 {
 	// Move enemies

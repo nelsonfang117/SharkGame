@@ -6,6 +6,9 @@ void Player::initVariables()
 	this->attackCooldownMax = 15.f;
 	// We set this so that our first attack is instant
 	this->attackCooldown = this->attackCooldownMax;
+
+	this->hpMax = 10;
+	this->hp = this->hpMax;
 }
 
 void Player::initTexture()
@@ -40,15 +43,57 @@ Player::~Player()
 
 }
 
+
+// Accessors
+// Position
 const sf::Vector2f& Player::getPos() const
 {
 	// Return the player position
 	return this->sprite.getPosition();
 }
 
+// Bounds
 const sf::FloatRect Player::getBounds() const
 {
 	return this->sprite.getGlobalBounds();
+}
+
+// Current hp
+const int& Player::getHp() const
+{
+	return this->hp;
+}
+
+// Max hp
+const int& Player::getHpMax() const
+{
+	return this->hpMax;
+}
+
+// MODIFIERS
+// Two overloaded functions, they do the same thing
+void Player::setPosition(const sf::Vector2f pos)
+{
+	this->sprite.setPosition(pos);
+}
+
+void Player::setPosition(const float x, const float y)
+{
+	this->sprite.setPosition(x, y);
+}
+
+void Player::setHp(const int hp)
+{
+	this->hp = hp;
+}
+
+void Player::loseHp(const int value)
+{
+	this->hp -= value;
+	if (this->hp < 0)
+	{
+		this->hp = 0;
+	}
 }
 
 void Player::move(const float dirX, const float dirY)
