@@ -61,7 +61,10 @@ private:
 	void initSystems();
 
 	void initEnemies();
-
+	// music 
+	sf::Music explosionSound;
+	sf::Music laserSound;
+	sf::Music hitSound;
 
 public:
 	Game();

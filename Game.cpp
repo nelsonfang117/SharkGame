@@ -1,5 +1,5 @@
 #include "Game.h"
-
+#include <SFML/Audio.hpp>
 /*
 Private
 */
@@ -93,7 +93,9 @@ Public
 */
 // Our constructor
 Game::Game()
-{
+{	
+	explosionSound.openFromFile("Music/alt_explosion_sfx.wav");
+	hitSound.openFromFile("Music/hit_sfx.wav");
 	// Start the window as game object is made
 	this->initWindow();
 	this->initTextures();
@@ -344,6 +346,7 @@ void Game::updateEnemies()
 // Update our combat
 void Game::updateCombat()
 {
+
 	// Update each enemy
 	for (int i = 0; i < this->enemies.size(); ++i)
 	{
@@ -353,10 +356,12 @@ void Game::updateCombat()
 			// Check if enemy intersects with laser
 			if (this->enemies[i]->getBounds().intersects(this->lasers[k]->getBound()))
 			{
+				hitSound.play();
 				// Deal damage, only destroy if enemy hp is 0
 				this->enemies[i]->dealDamage();
 				if (this->enemies[i]->getHp() == 0)
 				{
+					
 					// Increase points for killing enemies.
 					this->points += this->enemies[i]->getPoints();
 					// Delete enemy
