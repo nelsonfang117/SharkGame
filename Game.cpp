@@ -71,6 +71,7 @@ void Game::initWorld()
 void Game::initPlayer()
 {
 	this->player = new Player();
+	player->setPosition(350,800);
 	// Enemy pos at 20 20
 	//this->enemy = new Enemy(20.f, 20.f);
 }
