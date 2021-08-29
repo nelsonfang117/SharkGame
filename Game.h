@@ -27,6 +27,7 @@ private:
 	sf::Font font;
 	sf::Text pointText;
 	sf::Text gameOverText;
+	sf::Text endingText;
 
 	// World
 	sf::Texture worldBackgroundTex;

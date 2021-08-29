@@ -47,6 +47,14 @@ void Game::initGUI()
 		this->window->getSize().x / 2.f - this->gameOverText.getGlobalBounds().width / 2.f, 
 		this->window->getSize().y / 2.f - this->gameOverText.getGlobalBounds().height / 2.f);
 	
+	// Ending Screen
+	this->endingText.setFont(this->font);
+	this->endingText.setCharacterSize(70);
+	this->endingText.setFillColor(sf::Color::Yellow);
+	this->endingText.setString("You've won, \n    but at what cost? \n    (press esc to close game)");
+	this->endingText.setPosition(
+		this->window->getSize().x / 2.f - this->endingText.getGlobalBounds().width / 2.f,
+		this->window->getSize().y / 2.f - this->endingText.getGlobalBounds().height / 2.f);
 
 	// Init player GUI
 	this->playerHpBar.setSize(sf::Vector2f(300.f, 25.f));
@@ -534,6 +542,11 @@ void Game::render()
 	if (this->player->getHp() <= 0)
 	{
 		this->window->draw(this->gameOverText);
+	}
+
+	if (dead)
+	{
+		this->window->draw(this->endingText);
 	}
 	// Finish drawing and then display
 	this->window->display();
