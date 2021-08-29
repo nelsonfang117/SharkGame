@@ -150,10 +150,6 @@ Game::~Game()
 	{
 		delete i;
 	}
-	if (finalboss != nullptr)
-	{
-		delete finalboss;
-	}
 }
 
 // Our game loop
